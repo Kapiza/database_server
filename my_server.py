@@ -1,11 +1,13 @@
 from http.server import HTTPServer
 
 from connection import connection
-from handlers.main_handler import PostgresApiServer
+from handlers.main_handler import make_handler_class
 
 hostName = "0.0.0.0"
 serverPort = 8080
-webServer = HTTPServer((hostName, serverPort), PostgresApiServer(connection))  # instantiate webserver
+
+HandlerClass = make_handler_class(connection)
+webServer = HTTPServer((hostName, serverPort), HandlerClass)  # instantiate webserver
 
 print("Listening on: http://%s:%s" % (hostName, serverPort))
 
