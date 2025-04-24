@@ -1,8 +1,40 @@
+import json
+
 def discipline_handler(handler):
     if handler.command == "GET":
         ...
     elif handler.command == "POST":
-        ...
+        # GET DATA
+        content_length = int(handler.headers.get('Content-Length', 0))
+        body = handler.rfile.read(content_length)
+        data = json.loads(body)
+
+        # 
+        id = data["id"]
+        teacher_id = data["teacher_id"]
+        name = data["name"]
+        assessment_type = data["assessment_type"]
+        description = data["description"]
+        has_course_work = data["has_course_work"]
+
+        # 
+
+        # SQL Request
+        cursor = handler.db.cursor()
+        sql = """
+            INSERT INTO discipline
+            VALUES (%s, %s, %s, %s, %s, %s);
+        """
+        cursor.execute(sql, (id, teacher_id, name, assessment_type, description, has_course_work))
+        handler.db.commit()
+        # 
+
+        # Response
+        handler.send_response(200)
+        handler.send_header("Content-type", "text/html")
+        handler.end_headers()
+        handler.wfile.write(f"HI".encode("utf-8"))
+        # 
     elif handler.command == "PUT":
         ...
     elif handler.command == "DELETE":
