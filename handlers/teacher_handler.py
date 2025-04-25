@@ -29,17 +29,17 @@ def teacher_handler(handler):
         data = json.loads(body)
 
         # 
-        id = data["id"]
+        # id = data["id"]
         name = data["name"]
         # 
 
         # SQL Request
         cursor = handler.db.cursor()
         sql = """
-            INSERT INTO teacher (id, name)
-            VALUES (%s, %s);
+            INSERT INTO teacher (name)
+            VALUES (%s);
         """
-        cursor.execute(sql, (id, name))
+        cursor.execute(sql, (name,))
         handler.db.commit()
         # 
 
