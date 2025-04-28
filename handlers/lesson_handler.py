@@ -19,6 +19,7 @@ def lesson_handler(handler):
         # Response
         handler.send_response(200)
         handler.send_header("Content-type", "application/json")
+        handler.send_header("Access-Control-Allow-Origin", "*")
         handler.end_headers()
         handler.wfile.write(json.dumps(data, default=str).encode("utf-8"))
 
@@ -43,7 +44,7 @@ def lesson_handler(handler):
 
         # Response
         handler.send_response(200)
-        handler.send_header("Content-type", "text/html")
+        handler.send_header("Content-type", "text/html", 'Access-Control-Allow-Origin')
         handler.end_headers()
         handler.wfile.write(f"HI".encode("utf-8"))
         # 
